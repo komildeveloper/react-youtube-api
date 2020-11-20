@@ -1,10 +1,8 @@
 import React from 'react';
+import youtube from '../apis/youtube';
 import SearchBar from './SearchBar';
 import VideoList from './VideoList';
-import youtube from '../apis/youtube';
 import VideoDetail from './VideoDetail';
-
-const KEY = 'AIzaSyCw2uAiX45rpw4k5vcMUP9meRVgOwSDAhE';
 
 class App extends React.Component {
   state = { videos: [], selectedVideo: null };
@@ -13,16 +11,13 @@ class App extends React.Component {
     this.onTermSubmit('Football');
   }
 
-  onTermSubmit = async text => {
+  onTermSubmit = async term => {
     const response = await youtube.get('/search', {
       params: {
-        q: text,
-        part: 'snippet',
-        maxResults: 5,
-        type: 'video',
-        key: KEY
+        q: term
       }
     });
+
     this.setState({
       videos: response.data.items,
       selectedVideo: response.data.items[0]
